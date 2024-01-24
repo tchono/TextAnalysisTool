@@ -1,14 +1,15 @@
 import streamlit as st
 import japanize_matplotlib
 import matplotlib.pyplot as plt
+import random
 
 def predict_category(text):
     probabilities = {
-        "長い修飾"    :0.9,
-        "てにをは不正":0.1,
-        "意味不明"    :0.2,
-        "係り受け"    :0.1,
-        "主語なし"    :0.01,
+        "長い修飾"    : round(random.uniform(0.5, 1.0), 2),
+        "てにをは不正": round(random.uniform(0, 0.2), 2),
+        "意味不明"    : round(random.uniform(0, 0.2), 2),
+        "係り受け"    : round(random.uniform(0, 0.2), 2),
+        "主語なし"    : round(random.uniform(0, 0.2), 2),
     }
 
     return probabilities
@@ -17,15 +18,14 @@ def plot_results(categories, probabilities, threshold):
     plt.figure(figsize=(10, 4))
     plt.bar(categories, probabilities)
     plt.axhline(y=threshold, color='r', linestyle='-')
+    plt.ylim(0, 1)
     plt.xlabel('カテゴリー')
     plt.ylabel('確率')
     plt.title('テキスト解析結果')
     st.pyplot(plt)
 
 def main():
-    st.write('テキスト解析ツール')
-
-    user_input = st.text_area("テキストを入力してください")
+    user_input = st.text_area("解析する文章を入力してください")
     analyze_button = st.button('解析')
 
     if analyze_button and user_input:
